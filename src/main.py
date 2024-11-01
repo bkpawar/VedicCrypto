@@ -13,11 +13,11 @@ print(Fore.BLUE + f.renderText('equation generator'))
 
 
 fg = 0
-n = 'अग्निमी ळॆ पुरोहितं यज्ञस्य देवमृ त्विजम् । होतारं रत्नधातम'
 n = input(f"{Fore.LIGHTYELLOW_EX}mantra")
 v = 20
 
-class bcolors:
+
+class BColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -28,10 +28,11 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-#############################################translotor#############################################################################
+
+# ############################################translotor#############################################################################
 def reverse(lst):
-    n = lst
-    new_lst = n[::-1]
+    nps = 0
+    new_lst = nps[::-1]
     if isinstance(lst, int):
         new_lst = ''.join(new_lst)
     elif isinstance(lst, str):
@@ -39,6 +40,7 @@ def reverse(lst):
     elif isinstance(lst, float):
         new_lst = ''.join(new_lst)
     return new_lst
+
 
 def latin(text):
     conversiontable = {'ॐ': 'oṁ', 'ऀ': 'ṁ', 'ँ': 'ṃ', 'ं': 'ṃ', 'ः': 'ḥ', 'अ': 'a', 'आ': 'ā', 'इ': 'i', 'ई': 'ī',
@@ -60,30 +62,37 @@ def latin(text):
 
     return latin_text
 
-##############################################remove UNNESSARRY#####################################################################
+# ##############################################remove UNNESSARRY#######################################################
+
+
 def vowels(devanagari_text):
     pattern = r"[ा-ौ]"
     devanagari_text = re.sub(pattern, '', devanagari_text)
     return devanagari_text
+
 
 def remove(text):
     s = re.sub('क्ष', 'ष', text)
     s = re.sub('श्र', 'र', s)
     s = re.sub('त्र', 'त', s)
     s = re.sub('ज्ञ', 'ञ', s)
-    n = separate_half_letters(s)
-    a = n
+    nx = separate_half_letters(s)
+    a = nx
     a = vowels(a)
     return a
 
+
 def separate_half_letters(devanagari_word):
     pattern = r'([क-ह][्])([क-ह])'
+
     def replace_half_letter(match):
         return match.group(2)
+
     separated_word = re.sub(pattern, replace_half_letter, devanagari_word)
     return separated_word
 
-##################################################################number conversion#################################################
+
+# ##################################################################number conversion###################################
 
 def katapayadi_number(shloka):
     katapayadi_map = {
@@ -99,11 +108,9 @@ def katapayadi_number(shloka):
         'ा': None, 'ि': None, 'ी': None, 'ु': None, 'ू': None, 'ृ': None, 'े': None, 'ै': None, 'ो': None, 'ौ': None,
         'ं': None, 'ँ': None, 'ऱ': 2, 'र्': 2
     }
-    global nm
-    filtered_dict = {k: v for k, v in katapayadi_map.items() if v not in ('', None)}
+    filtered_dict = {k: vs for k, vs in katapayadi_map.items() if vs not in ('', None)}
     number_representation = []
     nm = []
-    pq = []
     for char in shloka:
         if char in filtered_dict:
             number_representation.append(str(filtered_dict[char]))
@@ -115,44 +122,49 @@ def katapayadi_number(shloka):
     res = res.strip()
     return res
 
-######################################equations#####################################################################################
+# ######################################equations#####################################################################################
+
+
 x = sp.symbols('x')
 
+
 def create_polynomial(coefficients):
-    x = symbols('x')
-    polynomial = sum(float(coeff) * x ** (len(coefficients) - 1 - i) for i, coeff in enumerate(coefficients) if coeff != 0)
+    p = symbols('x')
+    polynomial = sum(float(coeff)*p**(len(coefficients) - 1 - i) for i, coeff in enumerate(coefficients)if coeff != 0)
     return polynomial
 
-def generate_polynomials(matrix):
-    return [create_polynomial(row) for row in matrix]
 
-def simplify_and_expand(polynomial, max_degree, row):
-    global r
-    x = symbols('x')
-    simplified_poly = Poly(polynomial, x).as_expr().expand().as_poly()
+def generate_polynomials(matrixss):
+    return [create_polynomial(rows) for rows in matrixss]
+
+
+def simplify_and_expand(polynomial, max_degree, rows):
+    p = symbols('x')
+    simplified_poly = Poly(polynomial, p).as_expr().expand().as_poly()
     coeffs = simplified_poly.all_coeffs()
-    linear_poly = coeffs[0] * x + coeffs[1]
+    linear_poly = coeffs[0] * p + coeffs[1]
     expanded_polynomials = []
     for degree in range(2, max_degree):
         expanded_poly = str(expand(linear_poly ** degree))
         expanded_poly = expanded_poly.replace('**', '^')
         expanded_polynomials.append(f"{expanded_poly} = 0, degree = {degree+1}")
-        expanded_polynomials.append(f"row=={row}")
-        expanded_polynomials.append("/.........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................../")
-        r = 0
+        expanded_polynomials.append(f"row=={rows}")
+        expanded_polynomials.append("/.............................................../")
     return expanded_polynomials
 
+
 def create_polynomialss(coefficients):
-    x = sp.symbols('x')
+    xps = sp.symbols('x')
     degree = len(coefficients) - 1
-    polynomial = sum(int(coeff) * x**(int(degree) - int(i)) for i, coeff in enumerate(coefficients) if coeff != 0)
+    polynomial = sum(int(coeff) * xps**(int(degree) - int(i)) for i, coeff in enumerate(coefficients) if coeff != 0)
     return polynomial
 
+
 def plot_polynomial(polynomial):
-    x = np.linspace(-10, 10, 400)
-    y = [polynomial.evalf(subs={sp.symbols('x'): val}) for val in x]
+    xpss = np.linspace(-10, 10, 400)
+    y = [polynomial.evalf(subs={sp.symbols('x'): val}) for val in xpss]
     plt.figure(figsize=(10, 6))
-    plt.plot(x, y, 'o', label=str(polynomial))
+    plt.plot(xpss, y, 'o', label=str(polynomial))
     plt.title('Polynomial Graph')
     plt.xlabel('x')
     plt.ylabel('f(x)')
@@ -161,6 +173,7 @@ def plot_polynomial(polynomial):
     plt.grid()
     plt.legend()
     plt.show()
+
 
 def matrix(num):
     global fg, x
@@ -186,6 +199,7 @@ def matrix(num):
         res.append(sub)
     return res
 
+
 def graph():
     x = np.arange(len(sdfg))
     print(x)
@@ -197,13 +211,15 @@ def graph():
     plt.plot(x, sdfg, 'o')
     plt.show()
 
+
 def karma_patha_conversion(sentence):
     words = sentence.split()
     karma_patha = []
     for i in range(len(words) - 1):
         pair = f"{words[i]}-{words[i + 1]}"
         karma_patha.append(pair)
-    return '; '.join(karma_patha)
+    return ''.join(karma_patha)
+
 
 def generate_pattern(num_words):
     num_words = len(num_words.split())
@@ -217,6 +233,7 @@ def generate_pattern(num_words):
 
     return pattern
 
+
 def jata_patha(sentence):
     words = sentence.split()
     num_words = len(words)
@@ -225,6 +242,7 @@ def jata_patha(sentence):
     for index in pattern:
         result.append(words[(index - 1) % num_words])
     return ' '.join(result)
+
 
 def generate_full_pattern(sec):
     pattern = []
@@ -236,10 +254,11 @@ def generate_full_pattern(sec):
         current_line = [x + 1 for x in current_line]
     return pattern
 
+
 def ghana_patha(sentence):
     words = sentence.split()
     num_words = len(words)
-    pattern = generate_full_pattern(num_words)
+    pattern = generate_full_pattern(str(num_words))
     result = []
     for index in pattern:
         result.append(words[(index - 1) % num_words])
@@ -313,11 +332,12 @@ def plot_roots(roots):
 
 #######################################################end############################################################################
 #######################################################result#########################################################################
+
 vedic_shloka = remove(n)
 numbers = katapayadi_number(vedic_shloka)
 matrixs = matrix(numbers)
 result = pyfiglet.figlet_format(f"PADA PATHA: {numbers}", font = "digital" )
-print(bcolors.OKGREEN + result)
+print(BColors.OKGREEN + result)
 print()
 result = pyfiglet.figlet_format(f"KARMAPATHA:{katapayadi_number(remove(karma_patha_conversion(n)))}", font = "digital", width = 300 )
 print(Fore.LIGHTMAGENTA_EX + result)
@@ -327,7 +347,7 @@ print()
 gfjhd = generate_polynomials(matrixs)
 gfdhsj = []
 fg = int(fg)
-print(f"{bcolors.OKCYAN}WORKING", end =" ")
+print(f"{BColors.OKCYAN}WORKING", end =" ")
 print(" /", end =" ")
 for row in range(fg):
     print(".", end=" ")
@@ -337,9 +357,9 @@ x = symbols('x')
 print(" /", end =" ")
 print()
 print("")
-print(f"{bcolors.OKGREEN}{create_polynomialss(list(numbers))} = 0 PADA PATHA")
+print(f"{BColors.OKGREEN}{create_polynomialss(list(numbers))} = 0 PADA PATHA")
 print("")
-print(f"{bcolors.OKBLUE}{create_polynomialss(list(katapayadi_number(remove(karma_patha_conversion(n)))))} = 0 KARMA PATHA")
+print(f"{BColors.OKBLUE}{create_polynomialss(list(katapayadi_number(remove(karma_patha_conversion(n)))))} = 0 KARMA PATHA")
 print("")
 
 
