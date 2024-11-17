@@ -8,7 +8,7 @@ Vedic crypto is a peice of code that can creates pictures from any devangiri tex
 
 Python library:
 > It is simple to use just
-  > install the library with pip install VedicCrypto
+  > install the library with pip install VedicCrypto, 
   > Play around with the functions as you see in the source code   
 
 
