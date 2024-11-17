@@ -6,8 +6,15 @@ Agnimele pictures
 Do you wanns create pictures from you name? , its now possible with Vedic crypto
 Vedic crypto is a peice of code that can creates pictures from any devangiri text and its really easy to operate, you just have to enter your text and you will get the equations then you just have to use any computation tool that will convert it to a complex plane , contour plot or even Graph therory. 
 
+Python library:
+> It is simple to use just
+  > install the library with pip install VedicCrypto
+  > Play around with the functions as you see in the source code   
+
+
 Upcoming updates: 
 
+> detailed python library usage guide
 > The graph makeing ability will now be soon inbuilt in the software
 > In within a few days you will be able to create sound from any text !
 
